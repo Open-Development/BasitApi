@@ -11,7 +11,6 @@ using Microsoft.Extensions.Logging;
 namespace sampleApi.Controllers
 {
     [ApiController]
-    [EnableCors("AllowOrigin")]
     [Route("[controller]")]
     public class DeviceController : ControllerBase
     {

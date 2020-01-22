@@ -20,20 +20,19 @@ namespace sampleApi
             Configuration = configuration;
         }
 
+        readonly string myCorsPolicy = "apiCorsPolicy";
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+               services.AddCors(options => 
+                options.AddPolicy(myCorsPolicy,
+                    builder => builder
+                        .AllowAnyOrigin()
+            ));
 
-             services.AddCors(options => options.AddPolicy("AllowOrigin",
-                builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials()
-                    .WithOrigins("http://localhost:4200", "http://192.168.0.102:4200")
-                    ));
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,14 +43,13 @@ namespace sampleApi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 
             // app.UseAuthorization();
 
-            app.UseCors("AllowOrigin");
-
+             app.UseCors(myCorsPolicy);
 
             app.UseEndpoints(endpoints =>
             {

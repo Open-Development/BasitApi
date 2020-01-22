@@ -15,6 +15,17 @@ export class DeviceService {
   }
 
   public get(type: string): Observable<Light[]> {
-    return this.http.get<Light[]>(this.apiUrl + '/' + type);
+    const url = this.apiUrl + '/' + type;
+    const reqHeaders = this.getHeaders();
+
+    return this.http.get<Light[]>(url);
+  }
+
+  private getHeaders(): any {
+    return {
+      // 'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+      'Access-Control-Allow-Headers': 'X-Requested-With,content-type'
+    };
   }
 }
